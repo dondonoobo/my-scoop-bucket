@@ -2,11 +2,15 @@ name: Auto Update Scoop Manifests
 
 on:
   schedule:
-    - cron: '0 */6 * * *' # 6時間ごとに自動実行（時間は好みに合わせて調整してください）
+    - cron: '0 */2 * * *' # 6時間ごとに自動実行（時間は好みに合わせて調整してください）
   workflow_dispatch: # GitHubの画面から手動でいつでも実行できるボタンを追加
 
 permissions:
   contents: write # GitHubへ変更を書き込むために必要
+
+# ⬇️ ここから2行を追加して、新しいNode.js環境での動作を強制します
+env:
+  FORCE_JAVASCRIPT_ACTIONS_TO_NODE24: 'true'
 
 jobs:
   update-manifests:
