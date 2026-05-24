@@ -1,0 +1,49 @@
+name: Auto Update Scoop Manifests
+
+on:
+  schedule:
+    - cron: '0 */6 * * *' # 6時間ごとに自動実行（時間は好みに合わせて調整してください）
+  workflow_dispatch: # GitHubの画面から手動でいつでも実行できるボタンを追加
+
+permissions:
+  contents: write # GitHubへ変更を書き込むために必要
+
+jobs:
+  update-manifests:
+    runs-on: windows-latest
+    
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v4
+
+      - name: Setup Scoop Environment
+        shell: powershell
+        run: |
+          # GitHub Actions環境に一時的にScoopをインストール
+          Invoke-RestMethod -Uri https://get.scoop.sh | Invoke-Expression
+          echo "$env:USERPROFILE\scoop\shims" | Out-File -FilePath $env:GITHUB_PATH -Encoding utf8 -Append
+
+      - name: Run Update Script
+        shell: powershell
+        run: |
+          # 修正したPowerShellスクリプトを実行
+          .\Update-ScoopManifests.ps1
+
+      - name: Commit and Push Changes
+        shell: powershell
+        run: |
+          git config --global user.name "github-actions[bot]"
+          git config --global user.email "github-actions[bot]@users.noreply.github.com"
+          
+          # マニフェストとログファイルをステージング
+          git add bucket/*.json
+          if (Test-Path "bucket/update_log.txt") { git add bucket/update_log.txt }
+          
+          # 変更がある場合のみコミットしてプッシュ
+          $status = git status --porcelain
+          if ($status) {
+              git commit -m "chore: auto-update manifests and logs [skip ci]"
+              git push
+          } else {
+              Write-Host "No changes detected. Skip commit."
+          }
