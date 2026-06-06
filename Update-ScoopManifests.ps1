@@ -1,26 +1,24 @@
 # --------------------------------------------------------
 # GitHub Actions環境かローカルPC環境かを自動判定
 if ($env:GITHUB_WORKSPACE) {
-    # GitHub Actions上のパス
-    $bucketPath = "$env:GITHUB_WORKSPACE\bucket"
+    $bucketPath     = "$env:GITHUB_WORKSPACE\bucket"
     $checkverScript = "$env:USERPROFILE\scoop\apps\scoop\current\bin\checkver.ps1"
 } else {
-    # 従来のローカルPC上のパス
-    $bucketPath = ".\bucket"
+    $bucketPath     = ".\bucket"
     $checkverScript = "$env:SCOOP\apps\scoop\current\bin\checkver.ps1"
 }
 
 $logFile = "$bucketPath\update_log.txt"
-$date = Get-Date -Format "yyyy/MM/dd HH:mm:ss"
-# --------------------------------------------------------
+$date    = Get-Date -Format "yyyy/MM/dd HH:mm:ss"
+
 # プログレスバー非表示
 $ProgressPreference = 'SilentlyContinue'
 
 # --------------------------------------------------------
 # URLテンプレートにプレースホルダを適用する共通関数
-#   $version : 検出された新バージョン全体
-#   $commit  : バージョン末尾の "16進数" 部分（従来仕様）
-#   $captures: checkver の追加キャプチャ（$matchN / 名前付き）を格納したハッシュテーブル
+#   $version  : 検出された新バージョン全体
+#   $commit   : バージョン末尾の "16進数" 部分（ドット区切りの末尾、なければ全体）
+#   $captures : checkver の追加キャプチャ（$matchVersion / $matchDate 等）
 # --------------------------------------------------------
 function Expand-UrlTemplate {
     param(
@@ -34,43 +32,45 @@ function Expand-UrlTemplate {
 
     $result = $template
 
-    # 1) 名前付き / 番号付きキャプチャを先に置換（長い名前から処理して部分一致を防ぐ）
+    # 1) 名前付き/番号付きキャプチャを先に置換（長い名前から処理して部分一致を防ぐ）
     if ($captures) {
         foreach ($key in ($captures.Keys | Sort-Object { $_.Length } -Descending)) {
             $result = $result.Replace('$' + $key, [string]$captures[$key])
         }
     }
 
-    # 2) 従来の $version / $commit を置換
+    # 2) $version / $commit を置換
     $result = $result.Replace('$version', $version).Replace('$commit', $commit)
 
     return $result
 }
 
 # --------------------------------------------------------
-# architecture配下 / トップレベルの url・extract_dir を更新する共通関数
-#   $node         : 更新対象ノード（$json.architecture.'64bit' か $json 自体）
-#   $autoupdateNode : 対応するautoupdateノード
+# 生のJSONテキストに対して "キー": "値" を正規表現で書き換える共通関数
+#   ConvertTo-Json を使わないことで元のインデントを完全保持する。
+#   $node はドット区切りのキー位置を示すための情報ではなく、
+#   ここでは「最後に出現する該当キー」ではなく文脈を限定して置換する。
+# ※ url/extract_dir/version はマニフェスト内でキー名が一意か、
+#   architecture配下で重複しても値の文字列が異なるため、値ベースで安全に置換する。
 # --------------------------------------------------------
-function Update-Node {
+function Set-JsonStringValue {
     param(
-        $node,
-        $autoupdateNode,
-        [string]$version,
-        [string]$commit,
-        [hashtable]$captures
+        [string]$text,
+        [string]$key,
+        [string]$oldValue,
+        [string]$newValue
     )
 
-    if (-not $autoupdateNode) { return }
+    if ([string]::IsNullOrEmpty($oldValue)) { return $text }
+    if ($oldValue -eq $newValue)            { return $text }
 
-    if ($autoupdateNode.url) {
-        $node.url = Expand-UrlTemplate -template $autoupdateNode.url -version $version -commit $commit -captures $captures
-        $node.psobject.Properties.Remove('hash')
-    }
+    # 旧値をリテラルとしてエスケープして検索（JSON内のエスケープを考慮し \\ と \/ は素直に扱う）
+    $escapedOld = [regex]::Escape($oldValue)
+    # "key": "oldValue" の形にマッチさせ、値部分だけ置換
+    $pattern = '("' + [regex]::Escape($key) + '"\s*:\s*")' + $escapedOld + '(")'
+    $replacement = '${1}' + $newValue.Replace('$', '$$$$') + '${2}'
 
-    if ($autoupdateNode.extract_dir) {
-        $node.extract_dir = Expand-UrlTemplate -template $autoupdateNode.extract_dir -version $version -commit $commit -captures $captures
-    }
+    return [regex]::Replace($text, $pattern, $replacement)
 }
 
 try {
@@ -84,76 +84,89 @@ try {
 
         $checkOutput = & $checkverScript $jsonPath -NoColors *>&1 | Out-String
 
-        if ($checkOutput -match '(?m)^\s*[\w-]+:\s+([^\s\r\n]+)') {
+        if ($checkOutput -match '(?m)^\s*[\w.-]+:\s+([^\s\r\n]+)') {
             $newVersion = $matches[1]
-            $json = Get-Content $jsonPath -Raw | ConvertFrom-Json
+
+            # 比較用に現行 version を取得（オブジェクトは比較にのみ使用、書き込みには使わない）
+            $json       = Get-Content $jsonPath -Raw | ConvertFrom-Json
             $oldVersion = $json.version
 
-            if ($newVersion -ne $oldVersion) {
-                $json.version = $newVersion
+            if ($newVersion -eq $oldVersion) {
+                "[$fileName] $newVersion (Up to date)" | Out-File $logFile -Append -Encoding UTF8
+                continue
+            }
 
-                # ---- 従来の $commit プレースホルダ用（"timestamp.hash" 形式に対応）----
-                $commit = if ($newVersion -match '\.([0-9a-f]+)$') { $matches[1] } else { $newVersion }
+            # ---- $commit プレースホルダ（"数字.hash" 形式の末尾、なければ全体）----
+            $commit = if ($newVersion -match '\.([0-9a-f]+)$') { $matches[1] } else { $newVersion }
 
-                # ---- 追加キャプチャの取得 -------------------------------------------
-                # マニフェストに "autoupdate_capture" が定義されていれば、
-                # その正規表現を $newVersion に適用し、名前付き/番号付きグループを
-                # プレースホルダ（例: $matchVersion, $matchDate, $match1 ...）として展開する。
-                $captures = @{}
-                if ($json.autoupdate -and $json.autoupdate.autoupdate_capture) {
-                    $capRegex = [string]$json.autoupdate.autoupdate_capture
-                    $m = [regex]::Match($newVersion, $capRegex)
-                    if ($m.Success) {
-                        # 名前付きグループ → $match<Name>
-                        foreach ($gname in ([regex]$capRegex).GetGroupNames()) {
-                            if ($gname -match '^\d+$') {
-                                # 番号グループ（0は全体なので除外）
-                                if ([int]$gname -gt 0 -and $m.Groups[$gname].Success) {
-                                    $captures["match$gname"] = $m.Groups[$gname].Value
-                                }
-                            } else {
-                                if ($m.Groups[$gname].Success) {
-                                    $captures["match$gname"] = $m.Groups[$gname].Value
-                                }
+            # ---- 追加キャプチャ（autoupdate_capture があれば適用）----------------
+            $captures = @{}
+            if ($json.autoupdate -and $json.autoupdate.autoupdate_capture) {
+                $capRegex = [string]$json.autoupdate.autoupdate_capture
+                $m = [regex]::Match($newVersion, $capRegex)
+                if ($m.Success) {
+                    foreach ($gname in ([regex]$capRegex).GetGroupNames()) {
+                        if ($gname -match '^\d+$') {
+                            if ([int]$gname -gt 0 -and $m.Groups[$gname].Success) {
+                                $captures["match$gname"] = $m.Groups[$gname].Value
+                            }
+                        } else {
+                            if ($m.Groups[$gname].Success) {
+                                $captures["match$gname"] = $m.Groups[$gname].Value
                             }
                         }
-                    } else {
-                        "[$fileName] WARNING: autoupdate_capture did not match '$newVersion'" | Out-File $logFile -Append -Encoding UTF8
                     }
+                } else {
+                    "[$fileName] WARNING: autoupdate_capture did not match '$newVersion'" | Out-File $logFile -Append -Encoding UTF8
                 }
-
-                # ---- URL等の更新処理（architectureあり/なし両対応）-----------------
-                if ($json.architecture.'64bit'.url) {
-                    # 64bit があるケース（エミュレータ等）
-                    Update-Node -node $json.architecture.'64bit' `
-                                -autoupdateNode $json.autoupdate.architecture.'64bit' `
-                                -version $newVersion -commit $commit -captures $captures
-
-                    # 32bit も定義されていれば更新（PuTTY-ranvis等）
-                    if ($json.architecture.'32bit'.url) {
-                        Update-Node -node $json.architecture.'32bit' `
-                                    -autoupdateNode $json.autoupdate.architecture.'32bit' `
-                                    -version $newVersion -commit $commit -captures $captures
-                    }
-                } elseif ($json.url) {
-                    # トップレベルurlのみのケース（uBlock等）
-                    Update-Node -node $json `
-                                -autoupdateNode $json.autoupdate `
-                                -version $newVersion -commit $commit -captures $captures
-                }
-
-                # ---- 保存用に autoupdate_capture を除去（Scoop標準スキーマ外のため）----
-                if ($json.autoupdate -and $json.autoupdate.psobject.Properties['autoupdate_capture']) {
-                    # ※残しても害はないが、Scoop公式の検証に通したい場合は除去する。
-                    #   再更新時に必要なので、ここではコメントアウトして残す方針とする。
-                    # $json.autoupdate.psobject.Properties.Remove('autoupdate_capture')
-                }
-
-                $json | ConvertTo-Json -Depth 10 | Set-Content $jsonPath -Encoding Ascii
-                "[$fileName] Updated: $oldVersion -> $newVersion" | Out-File $logFile -Append -Encoding UTF8
-            } else {
-                "[$fileName] $newVersion (Up to date)" | Out-File $logFile -Append -Encoding UTF8
             }
+
+            # ---- 旧→新の置換対象ペアを収集（生テキスト置換用）--------------------
+            # version は必ず置換。url / extract_dir は autoupdate テンプレートから新値を生成。
+            $replacements = New-Object System.Collections.Generic.List[object]
+
+            # version 本体
+            $replacements.Add([pscustomobject]@{ Key = 'version'; Old = $oldVersion; New = $newVersion })
+
+            # --- url / extract_dir の旧値・新値を算出する内部関数 ---
+            function Add-NodeReplacements {
+                param($node, $autoupdateNode)
+
+                if (-not $autoupdateNode) { return }
+
+                if ($autoupdateNode.url -and $node.url) {
+                    $newUrl = Expand-UrlTemplate -template $autoupdateNode.url -version $newVersion -commit $commit -captures $captures
+                    $script:replacements.Add([pscustomobject]@{ Key = 'url'; Old = $node.url; New = $newUrl })
+                }
+                if ($autoupdateNode.extract_dir -and $node.extract_dir) {
+                    $newDir = Expand-UrlTemplate -template $autoupdateNode.extract_dir -version $newVersion -commit $commit -captures $captures
+                    if ($node.extract_dir -ne $newDir) {
+                        $script:replacements.Add([pscustomobject]@{ Key = 'extract_dir'; Old = $node.extract_dir; New = $newDir })
+                    }
+                }
+            }
+
+            if ($json.architecture.'64bit'.url) {
+                Add-NodeReplacements -node $json.architecture.'64bit' -autoupdateNode $json.autoupdate.architecture.'64bit'
+                if ($json.architecture.'32bit'.url) {
+                    Add-NodeReplacements -node $json.architecture.'32bit' -autoupdateNode $json.autoupdate.architecture.'32bit'
+                }
+            } elseif ($json.url) {
+                Add-NodeReplacements -node $json -autoupdateNode $json.autoupdate
+            }
+
+            # ---- 生テキストに対して順次置換（インデント保持）--------------------
+            $rawText = Get-Content $jsonPath -Raw
+
+            foreach ($r in $replacements) {
+                $rawText = Set-JsonStringValue -text $rawText -key $r.Key -oldValue $r.Old -newValue $r.New
+            }
+
+            # 末尾改行を保ったまま書き込み（BOMなしUTF-8推奨。ASCIIだと非ASCII文字が壊れるため変更）
+            $utf8NoBom = New-Object System.Text.UTF8Encoding($false)
+            [System.IO.File]::WriteAllText($jsonPath, $rawText, $utf8NoBom)
+
+            "[$fileName] Updated: $oldVersion -> $newVersion" | Out-File $logFile -Append -Encoding UTF8
         }
     }
     "--------------------------------------------------" | Out-File $logFile -Append -Encoding UTF8
