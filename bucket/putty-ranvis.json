@@ -1,5 +1,5 @@
 {
-    "version": "0.84.20260524",
+    "version": "0.83.0.20250101",
     "description": "Japanese-localized version of PuTTY (SSH/Telnet client) by ranvis",
     "homepage": "https://www.ranvis.com/putty",
     "license": {
@@ -10,11 +10,11 @@
     "depends": "7zip",
     "architecture": {
         "64bit": {
-            "url": "https://www.ranvis.com/downloads/PuTTY-0.84-ranvis-20260524.win64.7z",
+            "url": "https://www.ranvis.com/downloads/PuTTY-0.83.0-ranvis-20250101.win64.7z",
             "extract_dir": "PuTTY"
         },
         "32bit": {
-            "url": "https://www.ranvis.com/downloads/PuTTY-0.84-ranvis-20260524.win32.zip"
+            "url": "https://www.ranvis.com/downloads/PuTTY-0.83.0-ranvis-20250101.win32.zip"
         }
     },
     "bin": [
@@ -27,19 +27,14 @@
         "puttytel.exe"
     ],
     "shortcuts": [
-        [
-            "putty.exe",
-            "PuTTY-ranvis"
-        ]
+        [ "putty.exe", "PuTTY-ranvis" ]
     ],
     "persist": "putty.ini",
     "checkver": {
         "url": "https://www.ranvis.com/putty",
-        "regex": "PuTTY-(?<v>[\\d.]+)-ranvis-(?<d>\\d{8})\\.win64\\.7z",
-        "replace": "${v}.${d}"
+        "regex": "PuTTY-(?<Version>[\\d.]+)-ranvis-(?<Date>\\d{8})\\.win64\\.7z"
     },
     "autoupdate": {
-        "autoupdate_capture": "^(?<Version>[\\d.]+)\\.(?<Date>\\d{8})$",
         "architecture": {
             "64bit": {
                 "url": "https://www.ranvis.com/downloads/PuTTY-$matchVersion-ranvis-$matchDate.win64.7z",
