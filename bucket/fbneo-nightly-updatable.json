@@ -1,66 +1,66 @@
 {
-    "version":  "08e3109",
-    "description":  "FinalBurn Neo (Nightly Build - Updatable)",
-    "homepage":  "https://github.com/finalburnneo/FBNeo",
-    "license":  "https://github.com/finalburnneo/FBNeo/blob/master/src/license.txt",
-    "architecture":  {
-                         "64bit":  {
-                                       "url":  "https://github.com/finalburnneo/FBNeo/releases/download/latest/windows-x86_64.zip",
-                                       "bin":  [
-                                                   [
-                                                       "fbneo64.exe",
-                                                       "fbneo-nightly"
-                                                   ]
-                                               ],
-                                       "shortcuts":  [
-                                                         [
-                                                             "fbneo64.exe",
-                                                             "FinalBurn Neo (Nightly)"
-                                                         ]
-                                                     ]
-                                   },
-                         "32bit":  {
-                                       "url":  "https://github.com/finalburnneo/FBNeo/releases/download/latest/windows-x86_32.zip",
-                                       "bin":  [
-                                                   [
-                                                       "fbneo.exe",
-                                                       "fbneo-nightly"
-                                                   ]
-                                               ],
-                                       "shortcuts":  [
-                                                         [
-                                                             "fbneo.exe",
-                                                             "FinalBurn Neo (Nightly)"
-                                                         ]
-                                                     ]
-                                   }
-                     },
-    "persist":  [
-                    "avi",
-                    "config",
-                    "roms",
-                    "savestates",
-                    "screenshots",
-                    "support",
-                    "neocdiso",
-                    "recordings",
-                    "ips",
-                    "blend",
-                    "cheats"
-                ],
-    "checkver":  {
-                     "url":  "https://api.github.com/repos/finalburnneo/FBNeo/releases/tags/latest",
-                     "jsonpath":  "$.target_commitish",
-                     "regex":  "([a-f0-9]{7})"
-                 },
-    "autoupdate":  {
-                       "architecture":  {
-                                            "64bit":  {
-                                                          "url":  "https://github.com/finalburnneo/FBNeo/releases/download/latest/windows-x86_64.zip"
-                                                      },
-                                            "32bit":  {
-                                                          "url":  "https://github.com/finalburnneo/FBNeo/releases/download/latest/windows-x86_32.zip"
-                                                      }
-                                        }
-                   }
+    "version": "08e3109",
+    "description": "FinalBurn Neo (Nightly Build - Updatable)",
+    "homepage": "https://github.com/finalburnneo/FBNeo",
+    "license": "https://github.com/finalburnneo/FBNeo/blob/master/src/license.txt",
+    "architecture": {
+        "64bit": {
+            "url": "https://github.com/finalburnneo/FBNeo/releases/download/latest/windows-x86_64.zip",
+            "bin": [
+                [
+                    "fbneo64.exe",
+                    "fbneo-nightly"
+                ]
+            ],
+            "shortcuts": [
+                [
+                    "fbneo64.exe",
+                    "FinalBurn Neo (Nightly)"
+                ]
+            ]
+        },
+        "32bit": {
+            "url": "https://github.com/finalburnneo/FBNeo/releases/download/latest/windows-x86_32.zip",
+            "bin": [
+                [
+                    "fbneo.exe",
+                    "fbneo-nightly"
+                ]
+            ],
+            "shortcuts": [
+                [
+                    "fbneo.exe",
+                    "FinalBurn Neo (Nightly)"
+                ]
+            ]
+        }
+    },
+    "persist": [
+        "avi",
+        "config",
+        "roms",
+        "savestates",
+        "screenshots",
+        "support",
+        "neocdiso",
+        "recordings",
+        "ips",
+        "blend",
+        "cheats"
+    ],
+    "checkver": {
+        "url": "https://api.github.com/repos/finalburnneo/FBNeo/releases/tags/latest",
+        "jsonpath": "$.target_commitish",
+        "regex": "([a-f0-9]{7})"
+    },
+    "autoupdate": {
+        "architecture": {
+            "64bit": {
+                "url": "https://github.com/finalburnneo/FBNeo/releases/download/latest/windows-x86_64.zip"
+            },
+            "32bit": {
+                "url": "https://github.com/finalburnneo/FBNeo/releases/download/latest/windows-x86_32.zip"
+            }
+        }
+    }
 }

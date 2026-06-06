@@ -6,7 +6,7 @@ if ($env:GITHUB_WORKSPACE) {
     $checkverScript = "$env:USERPROFILE\scoop\apps\scoop\current\bin\checkver.ps1"
 } else {
     # 従来のローカルPC上のパス
-    $bucketPath = "$env:SCOOP\buckets\my-bucket"
+    $bucketPath = ".\bucket"
     $checkverScript = "$env:SCOOP\apps\scoop\current\bin\checkver.ps1"
 }
 
