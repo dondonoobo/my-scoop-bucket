@@ -35,67 +35,18 @@
     "persist": "putty.ini",
     "checkver": {
         "url": "https://www.ranvis.com/putty",
-        "regex": "PuTTY-(?<version>[\\d.]+)-ranvis-(?<date>\\d{8})\\.win64\\.7z"
+        "regex": "PuTTY-([\\d.]+)-ranvis-(\\d{8})\\.win64\\.7z"
     },
     "autoupdate": {
+        "autoupdate_capture": "^([\\d.]+)-(\\d{8})$",
         "architecture": {
             "64bit": {
-                "url": "https://www.ranvis.com/downloads/PuTTY-$version-ranvis-$matchDate.win64.7z",
+                "url": "https://www.ranvis.com/downloads/PuTTY-$match1-ranvis-$match2.win64.7z",
                 "extract_dir": "PuTTY"
             },
             "32bit": {
-                "url": "https://www.ranvis.com/downloads/PuTTY-$version-ranvis-$matchDate.win32.zip"
+                "url": "https://www.ranvis.com/downloads/PuTTY-$match1-ranvis-$match2.win32.zip"
             }
         }
     }
-=======
-    "version":  "Unable",
-    "description":  "Japanese-localized version of PuTTY (SSH/Telnet client) by ranvis",
-    "homepage":  "https://www.ranvis.com/putty",
-    "license":  {
-                    "identifier":  "MIT",
-                    "url":  "https://www.chiark.greenend.org.uk/~sgtatham/putty/licence.html"
-                },
-    "notes":  "Japanese-localized build of PuTTY maintained by ranvis.",
-    "depends":  "7zip",
-    "architecture":  {
-                         "64bit":  {
-                                       "url":  "https://www.ranvis.com/downloads/PuTTY-$matchVersion-ranvis-$matchDate.win64.7z",
-                                       "extract_dir":  "PuTTY"
-                                   },
-                         "32bit":  {
-                                       "url":  "https://www.ranvis.com/downloads/PuTTY-$matchVersion-ranvis-$matchDate.win32.zip"
-                                   }
-                     },
-    "bin":  [
-                "putty.exe",
-                "puttygen.exe",
-                "pageant.exe",
-                "plink.exe",
-                "pscp.exe",
-                "psftp.exe",
-                "puttytel.exe"
-            ],
-    "shortcuts":  [
-                      [
-                          "putty.exe",
-                          "PuTTY-ranvis"
-                      ]
-                  ],
-    "persist":  "putty.ini",
-    "checkver":  {
-                     "url":  "https://www.ranvis.com/putty",
-                     "regex":  "PuTTY-(?\u003cVersion\u003e[\\d.]+)-ranvis-(?\u003cDate\u003e\\d{8})\\.win64\\.7z"
-                 },
-    "autoupdate":  {
-                       "architecture":  {
-                                            "64bit":  {
-                                                          "url":  "https://www.ranvis.com/downloads/PuTTY-$matchVersion-ranvis-$matchDate.win64.7z",
-                                                          "extract_dir":  "PuTTY"
-                                                      },
-                                            "32bit":  {
-                                                          "url":  "https://www.ranvis.com/downloads/PuTTY-$matchVersion-ranvis-$matchDate.win32.zip"
-                                                      }
-                                        }
-                   }
 }
