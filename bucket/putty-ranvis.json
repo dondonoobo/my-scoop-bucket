@@ -1,5 +1,5 @@
 {
-    "version":  "Unable",
+    "version":  "0.84.20260524",
     "description":  "Japanese-localized version of PuTTY (SSH/Telnet client) by ranvis",
     "homepage":  "https://www.ranvis.com/putty",
     "license":  {
@@ -10,11 +10,11 @@
     "depends":  "7zip",
     "architecture":  {
                          "64bit":  {
-                                       "url":  "https://www.ranvis.com/downloads/PuTTY-$matchVersion-ranvis-$matchDate.win64.7z",
+                                       "url":  "https://www.ranvis.com/downloads/PuTTY-0.84-ranvis-20260524.win64.7z",
                                        "extract_dir":  "PuTTY"
                                    },
                          "32bit":  {
-                                       "url":  "https://www.ranvis.com/downloads/PuTTY-$matchVersion-ranvis-$matchDate.win32.zip"
+                                       "url":  "https://www.ranvis.com/downloads/PuTTY-0.84-ranvis-20260524.win32.zip"
                                    }
                      },
     "bin":  [
