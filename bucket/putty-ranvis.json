@@ -1,6 +1,11 @@
 {
+<<<<<<< HEAD
     "version": "0.84.20260524",
     "description": "Japanese-localized version of PuTTY (SSH/Telnet client) by ranvis (GitHub-mirrored)",
+=======
+    "version": "Unable",
+    "description": "Japanese-localized version of PuTTY (SSH/Telnet client) by ranvis",
+>>>>>>> d9fe9d7d617f345593c8eabd64bbcff3bdad8aa5
     "homepage": "https://www.ranvis.com/putty",
     "license": {
         "identifier": "MIT",
@@ -10,11 +15,19 @@
     "depends": "7zip",
     "architecture": {
         "64bit": {
+<<<<<<< HEAD
             "url": "https://github.com/dondonoobo/my-scoop-bucket/releases/download/putty-ranvis-latest/PuTTY-0.84-ranvis-20260524.win64.7z",
             "extract_dir": "PuTTY"
         },
         "32bit": {
             "url": "https://github.com/dondonoobo/my-scoop-bucket/releases/download/putty-ranvis-latest/PuTTY-0.84-ranvis-20260524.win32.zip"
+=======
+            "url": "https://www.ranvis.com/downloads/PuTTY-$$match1-ranvis-$$match2.win64.7z",
+            "extract_dir": "PuTTY"
+        },
+        "32bit": {
+            "url": "https://www.ranvis.com/downloads/PuTTY-$$match1-ranvis-$$match2.win32.zip"
+>>>>>>> d9fe9d7d617f345593c8eabd64bbcff3bdad8aa5
         }
     },
     "bin": [

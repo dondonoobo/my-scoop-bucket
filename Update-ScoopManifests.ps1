@@ -170,6 +170,14 @@ try {
         }
     }
     "--------------------------------------------------" | Out-File $logFile -Append -Encoding UTF8
+
+    # PuTTY-ranvis だけは Scoop 標準の checkver -Update に任せる（日付2軸キャプチャのため）
+    $puttyManifest = Join-Path $bucketPath 'putty-ranvis.json'
+    if (Test-Path $puttyManifest) {
+        & $checkverScript -App 'putty-ranvis' -Dir $bucketPath -Update *>&1 |
+            Out-String | Out-File $logFile -Append -Encoding UTF8
+    }
+
 } catch {
     "$date - Critical Error: $_" | Out-File $logFile -Append -Encoding UTF8
 }
