@@ -1,36 +1,36 @@
 {
-    "version": "0.84.20260524",
-    "description": "Japanese-localized version of PuTTY (SSH/Telnet client) by ranvis (GitHub-mirrored)",
-    "homepage": "https://www.ranvis.com/putty",
-    "license": {
-        "identifier": "MIT",
-        "url": "https://www.chiark.greenend.org.uk/~sgtatham/putty/licence.html"
-    },
-    "notes": "Mirrored on GitHub to bypass ranvis User-Agent restriction. Built and localized by ranvis.",
-    "depends": "7zip",
-    "architecture": {
-        "64bit": {
-            "url": "https://github.com/dondonoobo/my-scoop-bucket/releases/download/putty-ranvis-latest/PuTTY-0.84-ranvis-20260524.win64.7z",
-            "extract_dir": "PuTTY"
-        },
-        "32bit": {
-            "url": "https://github.com/dondonoobo/my-scoop-bucket/releases/download/putty-ranvis-latest/PuTTY-0.84-ranvis-20260524.win32.zip"
-        }
-    },
-    "bin": [
-        "putty.exe",
-        "puttygen.exe",
-        "pageant.exe",
-        "plink.exe",
-        "pscp.exe",
-        "psftp.exe",
-        "puttytel.exe"
-    ],
-    "shortcuts": [
-        [
-            "putty.exe",
-            "PuTTY-ranvis"
-        ]
-    ],
-    "persist": "putty.ini"
+    "version":  "0.84.20260524",
+    "description":  "Japanese-localized version of PuTTY (SSH/Telnet client) by ranvis (GitHub-mirrored)",
+    "homepage":  "https://www.ranvis.com/putty",
+    "license":  {
+                    "identifier":  "MIT",
+                    "url":  "https://www.chiark.greenend.org.uk/~sgtatham/putty/licence.html"
+                },
+    "notes":  "Mirrored on GitHub to bypass ranvis User-Agent restriction. Built and localized by ranvis.",
+    "depends":  "7zip",
+    "architecture":  {
+                         "64bit":  {
+                                       "url":  "https://github.com/dondonoobo/my-scoop-bucket/releases/download/putty-ranvis-latest/PuTTY-0.84-ranvis-20260524.win64.7z",
+                                       "extract_dir":  "PuTTY"
+                                   },
+                         "32bit":  {
+                                       "url":  "https://github.com/dondonoobo/my-scoop-bucket/releases/download/putty-ranvis-latest/PuTTY-0.84-ranvis-20260524.win32.zip"
+                                   }
+                     },
+    "bin":  [
+                "putty.exe",
+                "puttygen.exe",
+                "pageant.exe",
+                "plink.exe",
+                "pscp.exe",
+                "psftp.exe",
+                "puttytel.exe"
+            ],
+    "shortcuts":  [
+                      [
+                          "putty.exe",
+                          "PuTTY-ranvis"
+                      ]
+                  ],
+    "persist":  "putty.ini"
 }
