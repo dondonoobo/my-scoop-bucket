@@ -16,3 +16,14 @@
 [putty-ranvis.json] Mirrored assets to dondonoobo/my-scoop-bucket (tag: putty-ranvis-latest)
 [putty-ranvis.json] Updated: 0.84.20260524 -> 0.84.20260524
 --------------------------------------------------
+2026/06/08 10:58:23 - [FBNeo] Update Check Started
+[fbneo-nightly.json] edee3f8 (Up to date)
+--------------------------------------------------
+2026/06/08 10:58:24 - [Eden] Update Check Started
+[eden-nightly.json] 1780772850.5ba3ae32dc (Up to date)
+--------------------------------------------------
+2026/06/08 10:58:25 - [PuTTY-ranvis] Mirror & Update Started
+[putty-ranvis.json] Fetching https://www.ranvis.com/putty ...
+[putty-ranvis.json] Current=0.84.20260524  Latest=0.84.20260524
+[putty-ranvis.json] 0.84.20260524 (Up to date, mirror exists)
+--------------------------------------------------
