@@ -203,3 +203,14 @@
 [putty-ranvis.json] Current=0.84.20260524  Latest=0.84.20260524
 [putty-ranvis.json] 0.84.20260524 (Up to date, mirror exists)
 --------------------------------------------------
+2026/06/10 23:26:36 - [FBNeo] Update Check Started
+[fbneo-nightly.json] 7979a3e (Up to date)
+--------------------------------------------------
+2026/06/10 23:26:37 - [Eden] Update Check Started
+[eden-nightly.json] Updated: 1781035083.3e31831cb0 -> 1781122546.5219b9f3d2
+--------------------------------------------------
+2026/06/10 23:26:38 - [PuTTY-ranvis] Mirror & Update Started
+[putty-ranvis.json] Fetching https://www.ranvis.com/putty ...
+[putty-ranvis.json] Current=0.84.20260524  Latest=0.84.20260524
+[putty-ranvis.json] 0.84.20260524 (Up to date, mirror exists)
+--------------------------------------------------
