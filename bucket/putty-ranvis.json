@@ -24,8 +24,7 @@
                 "pageant.exe",
                 "plink.exe",
                 "pscp.exe",
-                "psftp.exe",
-                "puttytel.exe"
+                "psftp.exe"
             ],
     "shortcuts":  [
                       [
