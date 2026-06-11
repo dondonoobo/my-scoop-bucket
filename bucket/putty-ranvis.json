@@ -11,7 +11,7 @@
     "architecture":  {
                          "64bit":  {
                                        "url":  "https://github.com/dondonoobo/my-scoop-bucket/releases/download/putty-ranvis-latest/PuTTY-0.84-ranvis-20260524.win64.7z",
-                                       "extract_dir":  "PuTTY"
+                                       "hash": "3eddbb78c693fc932bd414aaf95a76ebd0266b085272c2516fd567e544f2bbaf"
                                    },
                          "32bit":  {
                                        "url":  "https://github.com/dondonoobo/my-scoop-bucket/releases/download/putty-ranvis-latest/PuTTY-0.84-ranvis-20260524.win32.zip"
