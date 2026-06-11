@@ -8,6 +8,7 @@
                 },
     "notes":  "Mirrored on GitHub to bypass ranvis User-Agent restriction. Built and localized by ranvis.",
     "depends":  "7zip",
+    "extract_dir": "PuTTY-ranvis",
     "architecture":  {
                          "64bit":  {
                                        "url":  "https://github.com/dondonoobo/my-scoop-bucket/releases/download/putty-ranvis-latest/PuTTY-0.84-ranvis-20260524.win64.7z",
