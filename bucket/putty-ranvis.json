@@ -1,5 +1,5 @@
 {
-    "version":  "0.84.20260524",
+    "version":  "0.85.20260820",
     "description":  "Japanese-localized version of PuTTY (SSH/Telnet client) by ranvis (GitHub-mirrored)",
     "homepage":  "https://www.ranvis.com/putty",
     "license":  {
@@ -8,14 +8,15 @@
                 },
     "notes":  "Mirrored on GitHub to bypass ranvis User-Agent restriction. Built and localized by ranvis.",
     "depends":  "7zip",
-    "extract_dir": "PuTTY-ranvis",
+    "extract_dir":  "PuTTY-ranvis",
     "architecture":  {
                          "64bit":  {
-                                       "url":  "https://github.com/dondonoobo/my-scoop-bucket/releases/download/putty-ranvis-latest/PuTTY-0.84-ranvis-20260524.win64.7z",
-                                       "hash": "3eddbb78c693fc932bd414aaf95a76ebd0266b085272c2516fd567e544f2bbaf"
+                                       "url":  "https://github.com/dondonoobo/my-scoop-bucket/releases/download/putty-ranvis-latest/PuTTY-0.85-ranvis-20260820.win64.7z",
+                                       "hash":  "75E6B031F54F21518315993AD98476CBAE97C83843C53F3EEE682A99086EAA02"
                                    },
                          "32bit":  {
-                                       "url":  "https://github.com/dondonoobo/my-scoop-bucket/releases/download/putty-ranvis-latest/PuTTY-0.84-ranvis-20260524.win32.zip"
+                                       "url":  "https://github.com/dondonoobo/my-scoop-bucket/releases/download/putty-ranvis-latest/PuTTY-0.85-ranvis-20260820.win32.zip",
+                                       "hash":  "D58BDD49974A762E7B0AA15B14EE1AC4BDA72607A4A651F473AF1D97AE9F6EDF"
                                    }
                      },
     "bin":  [
