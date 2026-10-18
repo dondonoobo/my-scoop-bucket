@@ -1,5 +1,5 @@
 {
-  "version": "1792181975.e0d47f2790",
+  "version": "1792353251.de7e6e01d4",
   "description": "Eden - Experimental open-source Nintendo Switch emulator (Nightly, Windows amd64/x86_64 v3 PGO build).",
   "homepage": "https://eden-emu.dev/",
   "license": "GPL-3.0-or-later",
@@ -9,8 +9,8 @@
   ],
   "architecture": {
     "64bit": {
-      "url": "https://nightly.eden-emu.dev/v1792181975.e0d47f2790/Eden-Windows-e0d47f2790-amd64-clang-pgo.zip",
-      "hash": "2ee044e163c0ff3f5604fef4de0bff28d03ffd553ac934e15f1e02581e0d785f"
+      "url": "https://nightly.eden-emu.dev/v1792353251.de7e6e01d4/Eden-Windows-de7e6e01d4-amd64-clang-pgo.zip",
+      "hash": "bd3f1a8e5660a7b03bc4de9cbcb6cf9dd2f5dff77b050d27c143df1c7564592e"
     }
   },
   "shortcuts": [
