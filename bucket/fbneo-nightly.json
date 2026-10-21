@@ -1,5 +1,5 @@
 {
-  "version": "a9a527f",
+  "version": "15272ed",
   "description": "FinalBurn Neo (Nightly Build - Updatable)",
   "homepage": "https://github.com/finalburnneo/FBNeo",
   "license": "https://github.com/finalburnneo/FBNeo/blob/master/src/license.txt",
@@ -18,7 +18,7 @@
           "FinalBurn Neo (Nightly)"
         ]
       ],
-      "hash": "716806ca8b42e7c3aede7b7aadd5bec3f791c7f42f51f8d5380403b9632e114f"
+      "hash": "c16d1afa1c32f1156740f7bf933c80446f3d89f8e3a527c7ce2bb68d7774f403"
     },
     "32bit": {
       "url": "https://github.com/finalburnneo/FBNeo/releases/download/latest/windows-x86_32.zip",
@@ -34,7 +34,7 @@
           "FinalBurn Neo (Nightly)"
         ]
       ],
-      "hash": "b7c5faa1240a9b01060792049a54cb126b038132ebfbf196f56e79c2c1558f8a"
+      "hash": "782dac8a3ebf6c13e34b1b4bb33bf8e3d295b067beb7a6df2cc69f1a50884af3"
     }
   },
   "persist": [
