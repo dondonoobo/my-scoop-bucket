@@ -1,5 +1,5 @@
 {
-  "version": "a97b669",
+  "version": "v20261023184711-a97b669",
   "description": "FinalBurn Neo (Nightly Build - Updatable)",
   "homepage": "https://github.com/finalburnneo/FBNeo",
   "license": "https://github.com/finalburnneo/FBNeo/blob/master/src/license.txt",
@@ -52,8 +52,14 @@
   ],
   "checkver": {
     "url": "https://api.github.com/repos/finalburnneo/FBNeo/releases/tags/latest",
-    "jsonpath": "$.target_commitish",
-    "regex": "([a-f0-9]{7})"
+    "script": [
+      "$release = $page | ConvertFrom-Json",
+      "$commit = [string]$release.target_commitish",
+      "if ($commit -notmatch '^[0-9a-fA-F]{7,40}$') { throw \"Unexpected target_commitish '$commit'\" }",
+      "$published = [datetimeoffset]$release.published_at",
+      "Write-Output ('v{0}-{1}' -f $published.ToUniversalTime().ToString('yyyyMMddHHmmss'), $commit.Substring(0,7).ToLower())"
+    ],
+    "regex": "^(v[0-9]{14}-[0-9a-f]{7,40})$"
   },
   "autoupdate": {
     "architecture": {
