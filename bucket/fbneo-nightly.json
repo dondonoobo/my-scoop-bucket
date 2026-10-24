@@ -1,74 +1,74 @@
 {
-  "version": "v20261023184711-a97b669",
-  "description": "FinalBurn Neo (Nightly Build - Updatable)",
-  "homepage": "https://github.com/finalburnneo/FBNeo",
-  "license": "https://github.com/finalburnneo/FBNeo/blob/master/src/license.txt",
-  "architecture": {
-    "64bit": {
-      "url": "https://github.com/finalburnneo/FBNeo/releases/download/latest/windows-x86_64.zip",
-      "bin": [
-        [
-          "fbneo64.exe",
-          "fbneo-nightly"
-        ]
-      ],
-      "shortcuts": [
-        [
-          "fbneo64.exe",
-          "FinalBurn Neo (Nightly)"
-        ]
-      ],
-      "hash": "f2e74df899867b4ace7fd01e21e43ccfe1a7ee047db14d2891ed476974ee7bdb"
-    },
-    "32bit": {
-      "url": "https://github.com/finalburnneo/FBNeo/releases/download/latest/windows-x86_32.zip",
-      "bin": [
-        [
-          "fbneo.exe",
-          "fbneo-nightly"
-        ]
-      ],
-      "shortcuts": [
-        [
-          "fbneo.exe",
-          "FinalBurn Neo (Nightly)"
-        ]
-      ],
-      "hash": "13afd9dc506374cd562521d18698925da84aecbac3db8367ce66efb1449852fc"
-    }
-  },
-  "persist": [
-    "avi",
-    "config",
-    "roms",
-    "savestates",
-    "screenshots",
-    "support",
-    "neocdiso",
-    "recordings",
-    "ips",
-    "blend",
-    "cheats"
-  ],
-  "checkver": {
-    "url": "https://api.github.com/repos/finalburnneo/FBNeo/releases/tags/latest",
-    "script": [
-      "$release = $page | ConvertFrom-Json",
-      "$commit = [string]$release.target_commitish",
-      "if ($commit -notmatch '^[0-9a-fA-F]{7,40}$') { throw \"Unexpected target_commitish '$commit'\" }",
-      "$published = [datetimeoffset]$release.published_at",
-      "Write-Output ('v{0}-{1}' -f $published.ToUniversalTime().ToString('yyyyMMddHHmmss'), $commit.Substring(0,7).ToLower())"
-    ],
-    "regex": "^(v[0-9]{14}-[0-9a-f]{7,40})$"
-  },
-  "autoupdate": {
+    "version": "v20261024051851-19a0d1e",
+    "description": "FinalBurn Neo (Nightly Build - Updatable)",
+    "homepage": "https://github.com/finalburnneo/FBNeo",
+    "license": "https://github.com/finalburnneo/FBNeo/blob/master/src/license.txt",
     "architecture": {
-      "64bit": {
-        "url": "https://github.com/finalburnneo/FBNeo/releases/download/latest/windows-x86_64.zip"
-      },
-      "32bit": {
-        "url": "https://github.com/finalburnneo/FBNeo/releases/download/latest/windows-x86_32.zip"
-      }
+        "64bit": {
+            "url": "https://github.com/finalburnneo/FBNeo/releases/download/latest/windows-x86_64.zip",
+            "bin": [
+                [
+                    "fbneo64.exe",
+                    "fbneo-nightly"
+                ]
+            ],
+            "shortcuts": [
+                [
+                    "fbneo64.exe",
+                    "FinalBurn Neo (Nightly)"
+                ]
+            ],
+            "hash": "eeff544ac01dbb69038a49f3f3186f6f391c8342bde0240209ce2c2c48459b55"
+        },
+        "32bit": {
+            "url": "https://github.com/finalburnneo/FBNeo/releases/download/latest/windows-x86_32.zip",
+            "bin": [
+                [
+                    "fbneo.exe",
+                    "fbneo-nightly"
+                ]
+            ],
+            "shortcuts": [
+                [
+                    "fbneo.exe",
+                    "FinalBurn Neo (Nightly)"
+                ]
+            ],
+            "hash": "4599f6886fa879aa9b87655882cbf146391336018308bd693425cf0cee7eff3b"
+        }
+    },
+    "persist": [
+        "avi",
+        "config",
+        "roms",
+        "savestates",
+        "screenshots",
+        "support",
+        "neocdiso",
+        "recordings",
+        "ips",
+        "blend",
+        "cheats"
+    ],
+    "checkver": {
+        "url": "https://api.github.com/repos/finalburnneo/FBNeo/releases/tags/latest",
+        "script": [
+            "$release = $page | ConvertFrom-Json",
+            "$commit = [string]$release.target_commitish",
+            "if ($commit -notmatch '^[0-9a-fA-F]{7,40}$') { throw \"Unexpected target_commitish '$commit'\" }",
+            "$published = [datetimeoffset]$release.published_at",
+            "Write-Output ('v{0}-{1}' -f $published.ToUniversalTime().ToString('yyyyMMddHHmmss'), $commit.Substring(0,7).ToLower())"
+        ],
+        "regex": "^(v[0-9]{14}-[0-9a-f]{7,40})$"
+    },
+    "autoupdate": {
+        "architecture": {
+            "64bit": {
+                "url": "https://github.com/finalburnneo/FBNeo/releases/download/latest/windows-x86_64.zip"
+            },
+            "32bit": {
+                "url": "https://github.com/finalburnneo/FBNeo/releases/download/latest/windows-x86_32.zip"
+            }
+        }
     }
-  }
 }
