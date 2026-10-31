@@ -1,5 +1,5 @@
 {
-    "version": "v20261031135117-02a1e84",
+    "version": "v20261031183216-1b1ac75",
     "description": "FinalBurn Neo (Nightly Build - Updatable)",
     "homepage": "https://github.com/finalburnneo/FBNeo",
     "license": "https://github.com/finalburnneo/FBNeo/blob/master/src/license.txt",
@@ -59,5 +59,7 @@
         ],
         "regex": "^(v[0-9]{14}-[0-9a-f]{7,40})$"
     },
-    "autoupdate": {}
+    "autoupdate": {
+        
+    }
 }
